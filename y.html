@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ransomware Luxury Edition</title>
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: red;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+}
+
+/* ===== CRT EFFECT ===== */
+.crt {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        rgba(255,0,0,0.06) 0px,
+        rgba(255,0,0,0.06) 2px,
+        rgba(0,0,0,0.08) 3px
+    );
+    animation: flicker 0.1s infinite alternate;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+/* ===== BACKGROUND MATRIX GLITCH ===== */
+@keyframes matrix {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 2000px; }
+}
+
+.bg {
+    position: fixed;
+    inset: 0;
+    background-image: url('https://i.ibb.co/CHmkhrP/matrix-red.png');
+    opacity: 0.3;
+    animation: matrix 20s linear infinite;
+    z-index: -1;
+}
+
+/* ===== SKULL LOGO ===== */
+.skull {
+    text-align: center;
+    font-size: 80px;
+    margin-top: 40px;
+    text-shadow: 
+        3px 3px #ff0000,
+        -3px -3px #8b0000,
+        0 0 30px red;
+    animation: skullGlitch 0.3s infinite;
+}
+
+@keyframes skullGlitch {
+    0% { transform: translate(0,0); }
+    20% { transform: translate(2px,-2px); color: #ff3030; }
+    40% { transform: translate(-2px,2px); color: #ff0000; }
+    60% { transform: translate(3px,1px); color: #ff5050; }
+    80% { transform: translate(-3px,0); color: #ff0000; }
+    100% { transform: translate(0,0); }
+}
+
+/* ===== ENCRYPTED TITLE ===== */
+.title {
+    text-align: center;
+    font-size: 65px;
+    letter-spacing: 8px;
+    margin-top: 10px;
+    animation: titleGlitch 0.15s infinite;
+}
+
+@keyframes titleGlitch {
+    0% { text-shadow: 3px 3px red; }
+    50% { text-shadow: -3px -1px #aa0000; }
+    100% { text-shadow: 5px 0px red; }
+}
+
+/* ===== TIMER ===== */
+#timer {
+    text-align: center;
+    font-size: 50px;
+    margin-top: 20px;
+    color: #fff;
+    text-shadow: 0 0 20px red;
+}
+
+/* ===== BOX ===== */
+.box {
+    width: 70%;
+    margin: 40px auto;
+    padding: 25px;
+    border: 2px solid red;
+    background: rgba(80,0,0,0.6);
+    text-align: center;
+    font-size: 22px;
+    color: white;
+    box-shadow: 0 0 25px red;
+}
+
+/* ===== PIN INPUT ===== */
+#pinInput {
+    display: block;
+    margin: 20px auto;
+    padding: 15px;
+    width: 220px;
+    font-size: 22px;
+    border: 2px solid red;
+    background: black;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+}
+
+/* ===== BUTTON ===== */
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 15px 30px;
+    background: red;
+    border: none;
+    color: white;
+    font-size: 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 15px red;
+}
+
+button:hover {
+    background: #ff3333;
+}
+
+/* ===== POPUP ERROR ===== */
+.errorBox {
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px 30px;
+    background: #330000;
+    color: red;
+    border: 2px solid red;
+    box-shadow: 0 0 15px red;
+    font-size: 20px;
+    animation: dropError 0.5s forwards;
+}
+
+@keyframes dropError {
+    to { top: 20px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="crt"></div>
+
+<div class="skull">☠️</div>
+<div class="title">ENCRYPTED SYSTEM</div>
+<div id="timer">00:00:30</div>
+
+<div class="box">
+    All files have been locked by Bebel-LUX Ransomware Simulation.<br>
+    Enter the correct PIN to begin the decryption process.<br><br>
+    <b>WARNING:</b> Wrong PIN = timer accelerates.
+</div>
+
+<input type="password" id="pinInput" placeholder="Enter PIN">
+<button onclick="unlock()">DECRYPT NOW</button>
+
+<script>
+
+/* ===== TIMER (30 detik) ===== */
+let time = 30;
+
+let countdown = setInterval(() => {
+    if (time <= 0) {
+        document.body.innerHTML =
+            "<h1 style='color:red;text-align:center;margin-top:200px;font-size:70px;'>SYSTEM FAILURE</h1>";
+        clearInterval(countdown);
+    }
+    
+    time--;
+    let sec = String(time).padStart(2, '0');
+    document.getElementById("timer").innerHTML = `00:00:${sec}`;
+}, 1000);
+
+/* ===== RANDOM ERROR POPUP ===== */
+setInterval(() => {
+    let box = document.createElement("div");
+    box.className = "errorBox";
+    box.innerText = "SYSTEM ERROR: MEMORY CORRUPTED";
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 1800);
+}, 4500);
+
+/* ===== UNLOCK ===== */
+function unlock() {
+    let pin = document.getElementById("pinInput").value;
+
+    if (pin === "252525") {
+        clearInterval(countdown);
+
+        document.body.innerHTML =
+            "<h1 style='color:lime;text-align:center;margin-top:200px;font-size:70px;'>DECRYPTING...</h1>";
+
+        setTimeout(() => {
+            window.location.href = "https://wa.me/6285975420751";
+        }, 2500);
+
+    } else {
+        time -= 5;
+        alert("Wrong PIN! Timer accelerated!");
+    }
+}
+
+/* ===== FULLSCREEN ===== */
+document.addEventListener("click", () => {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    }
+});
+</script>
+
+</body>
+</html>
